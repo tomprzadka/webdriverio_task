@@ -10,6 +10,8 @@
     "@wdio/spec-reporter": "^9.14.0",
     "appium": "^2.18.0",
     "appium-uiautomator2-driver": "^4.2.3",
+    "cross-env": "^7.0.3",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
@@ -26,6 +28,6 @@
     "lint": "npx eslint . --max-warnings 0",
     "tsc:check": "npx tsc --noEmit --pretty --strict",
     "prepare": "husky",
-    "appium:start": "npx appium --relaxed-security --log ./logs/appium.log"
+    "appium:start": "dotenv -e .env cross-env npx appium --address $APPIUM_HOST --port $APPIUM_PORT --relaxed-security --log ./logs/appium.log"
   }
 }
