@@ -1,7 +1,6 @@
 import { getEnv } from './env';
+import { getAppPath } from './paths';
 import { config as sharedConfig } from './wdio.shared.conf';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 const {
   APPIUM_PORT,
@@ -15,9 +14,6 @@ const {
   APP_WAIT_ACTIVITY,
 } = getEnv();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 export const config: WebdriverIO.Config = {
   ...sharedConfig,
   maxInstances: 1,
@@ -30,7 +26,7 @@ export const config: WebdriverIO.Config = {
         platformVersion: PLATFORM_VERSION,
         automationName: AUTOMATION_NAME,
         appPackage: APP_PACKAGE,
-        app: path.join(__dirname, '..', 'apps', APP_NAME),
+        app: getAppPath(APP_NAME),
         avd: AVD,
         appWaitActivity: `${APP_PACKAGE}.${APP_WAIT_ACTIVITY}`,
       },
