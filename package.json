@@ -25,6 +25,7 @@
     "format:check": "npx prettier . --check \"!**.ts\"",
     "lint": "npx eslint . --max-warnings 0",
     "tsc:check": "npx tsc --noEmit --pretty --strict",
-    "prepare": "husky"
+    "prepare": "husky",
+    "appium:start": "npx appium --relaxed-security --log ./logs/appium.log"
   }
 }
