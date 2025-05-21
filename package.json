@@ -20,7 +20,7 @@
     "typescript-eslint": "^8.32.1"
   },
   "scripts": {
-    "wdio": "wdio run ./wdio.conf.ts",
+    "test:android": "wdio ./src/config/wdio.android.caps.ts",
     "format": "npx prettier --write .",
     "format:check": "npx prettier . --check \"!**.ts\"",
     "lint": "npx eslint . --max-warnings 0",
