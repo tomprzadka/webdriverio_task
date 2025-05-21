@@ -2,14 +2,29 @@
   "name": "inpost_task",
   "type": "module",
   "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@wdio/cli": "^9.14.0",
     "@wdio/local-runner": "^9.14.0",
     "@wdio/mocha-framework": "^9.14.0",
     "@wdio/spec-reporter": "^9.14.0",
     "appium": "^2.18.0",
-    "appium-uiautomator2-driver": "^4.2.3"
+    "appium-uiautomator2-driver": "^4.2.3",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-wdio": "^9.9.1",
+    "globals": "^16.1.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.5.3",
+    "typescript-eslint": "^8.32.1"
   },
   "scripts": {
-    "wdio": "wdio run ./wdio.conf.ts"
+    "wdio": "wdio run ./wdio.conf.ts",
+    "format": "npx prettier --write .",
+    "format:check": "npx prettier . --check \"!**.ts\"",
+    "lint": "npx eslint . --max-warnings 0",
+    "tsc:check": "npx tsc --noEmit --pretty --strict",
+    "prepare": "husky"
   }
 }
