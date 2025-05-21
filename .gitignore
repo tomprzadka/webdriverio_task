@@ -10,6 +10,11 @@ lerna-debug.log*
 # apps
 src/apps/
 
+# error-artifacts
+error-artifacts/
+*.png
+*.mp4
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
