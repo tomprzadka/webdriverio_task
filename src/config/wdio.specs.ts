@@ -1,1 +1,1 @@
-export const specs: (string | string[])[] = ['../test/*.spec.ts'];
+export const specs: (string | string[])[] = ['../test/specs/*.spec.ts'];
