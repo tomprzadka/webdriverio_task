@@ -28,6 +28,7 @@
     "lint": "npx eslint . --max-warnings 0",
     "tsc:check": "npx tsc --noEmit --pretty --strict",
     "prepare": "husky",
-    "appium:start": "dotenv -e .env cross-env npx appium --address $APPIUM_HOST --port $APPIUM_PORT --relaxed-security --log ./logs/appium.log"
+    "_appium:start": "npx appium -g ./logs/appium.log --address $APPIUM_HOST --port $APPIUM_PORT --relaxed-security",
+    "appium:start": "dotenv -- npm run _appium:start"
   }
 }
