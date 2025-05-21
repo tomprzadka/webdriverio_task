@@ -1,5 +1,12 @@
 describe('Checkout process:: User should be able to', function () {
-  it('add the product to the shopping cart.', async () => {});
+  it('add the product to the shopping cart.', async () => {
+    const usernameInput = driver.$('~test-Username');
+    await usernameInput.addValue('standard_user');
+    const usernamePassword = driver.$('~test-Password');
+    await usernamePassword.addValue('secret_sauce');
+    const loginButton = driver.$('~test-LOGIN');
+    await loginButton.click();
+  });
   it('should sort items by name from Z to A', async () => {});
   it('should sort items by price from low to high ', async () => {});
   it('open shopping cart, remove the product and verify the update.', async () => {});
