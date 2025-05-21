@@ -1,11 +1,14 @@
+import { testUser } from '../../test-data/user.data';
+import { LoginPage } from '../pages/login.page';
+
 describe('Checkout process:: User should be able to', function () {
+  let loginPage: LoginPage;
+
+  before('setup', async () => {
+    loginPage = new LoginPage();
+  });
   it('add the product to the shopping cart.', async () => {
-    const usernameInput = driver.$('~test-Username');
-    await usernameInput.addValue('standard_user');
-    const usernamePassword = driver.$('~test-Password');
-    await usernamePassword.addValue('secret_sauce');
-    const loginButton = driver.$('~test-LOGIN');
-    await loginButton.click();
+    await loginPage.login(testUser);
   });
   it('should sort items by name from Z to A', async () => {});
   it('should sort items by price from low to high ', async () => {});
