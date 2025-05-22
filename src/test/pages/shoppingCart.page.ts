@@ -12,6 +12,10 @@ export class ShoppingCartPage {
     return $('~test-Cart Content');
   }
 
+  get checkoutButton(): ChainablePromiseElement {
+    return $('~test-CHECKOUT');
+  }
+
   get itemsInCart(): ChainablePromiseArray {
     return $$('//android.view.ViewGroup[@content-desc="test-Item"]');
   }
@@ -27,5 +31,9 @@ export class ShoppingCartPage {
 
   async removeItemFromCart(productName: string): Promise<void> {
     await this.actions.click(this.getRemoveButtonForItem(productName));
+  }
+
+  async openCheckout(): Promise<void> {
+    await this.actions.click(this.checkoutButton);
   }
 }

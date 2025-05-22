@@ -33,6 +33,10 @@ export class Actions {
     });
   }
 
+  async waitForDisplayed(element: ChainablePromiseElement): Promise<void> {
+    await element.waitForDisplayed();
+  }
+
   async getElementCount(elements: ChainablePromiseArray): Promise<number> {
     return await elements.length;
   }

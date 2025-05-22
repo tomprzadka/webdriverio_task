@@ -1,5 +1,7 @@
 import { testUser } from '../../test-data/user.data';
 import { SortOptions } from '../../views/sort.view';
+import { Actions } from '../helpers/actions';
+import { CheckoutPage } from '../pages/checkout.page';
 import { LoginPage } from '../pages/login.page';
 import { ProductsPage } from '../pages/products.page';
 import { ShoppingCartPage } from '../pages/shoppingCart.page';
@@ -8,11 +10,15 @@ describe('Checkout process:: User should be able to', function () {
   let loginPage: LoginPage;
   let productPage: ProductsPage;
   let shoppingCartPage: ShoppingCartPage;
+  let actions: Actions;
+  let checkoutPage: CheckoutPage;
 
   before('setup', async () => {
     loginPage = new LoginPage();
     productPage = new ProductsPage();
     shoppingCartPage = new ShoppingCartPage();
+    actions = new Actions();
+    checkoutPage = new CheckoutPage();
     await loginPage.login(testUser);
   });
 
@@ -54,7 +60,10 @@ describe('Checkout process:: User should be able to', function () {
       await shoppingCartPage.getNumberOfItemsInCart();
     await expect(numberOfItemsInCart).not.toEqual(numberOfItemsAfterRemoval);
   });
-  it('navigate to the payment screen.', async () => {});
+  it('navigate to the payment screen.', async () => {
+    await shoppingCartPage.openCheckout();
+    await expect(actions.waitForDisplayed(checkoutPage.checkoutForm));
+  });
   it('see that first name is required on submitting empty checkout form', async () => {});
   it('see that last name is required on submitting empty checkout form', async () => {});
   it('see that zip/postal code is required on submitting empty checkout form', async () => {});
