@@ -2,59 +2,65 @@ import { testUser } from '../../test-data/user.data';
 import { SortOptions } from '../../views/sort.view';
 import { Actions } from '../helpers/actions';
 import { CheckoutPage } from '../pages/checkout.page';
+import { CheckoutSummaryPage } from '../pages/checkoutSummary.page';
 import { LoginPage } from '../pages/login.page';
 import { ProductsPage } from '../pages/products.page';
 import { ShoppingCartPage } from '../pages/shoppingCart.page';
 
 describe('Checkout process:: User should be able to', function () {
   let loginPage: LoginPage;
-  let productPage: ProductsPage;
+  let products: ProductsPage;
   let shoppingCartPage: ShoppingCartPage;
   let actions: Actions;
   let checkoutPage: CheckoutPage;
+  let checkoutSummaryPage: CheckoutSummaryPage;
 
-  const desiredProduct = 'Sauce Labs Fleece Jacket';
+  const desiredProductName = 'Sauce Labs Fleece Jacket';
+  let desiredProductPrice: string = '';
 
   before('setup', async () => {
     loginPage = new LoginPage();
-    productPage = new ProductsPage();
+    products = new ProductsPage();
     shoppingCartPage = new ShoppingCartPage();
     actions = new Actions();
     checkoutPage = new CheckoutPage();
+    checkoutSummaryPage = new CheckoutSummaryPage();
+
     await loginPage.login(testUser);
   });
 
   it('should sort items by name from Z to A', async () => {
-    const firstItemBeforeSorting = await productPage.getFirstProductsName();
-    await productPage.openSortModal();
-    await productPage.sortView.selectSortOption(SortOptions.NAME_ZA);
-    const firstItemAfterSorting = await productPage.getFirstProductsName();
+    const firstItemBeforeSorting = await products.getFirstProductsName();
+    await products.openSortModal();
+    await products.sortView.selectSortOption(SortOptions.NAME_ZA);
+    const firstItemAfterSorting = await products.getFirstProductsName();
     await expect(firstItemBeforeSorting).not.toEqual(firstItemAfterSorting);
   });
   it('should sort items by price from low to high ', async () => {
-    const firstItemBeforeSorting = await productPage.getFirstProductsName();
-    await productPage.openSortModal();
-    await productPage.sortView.selectSortOption(SortOptions.PRICE_LOW_HIGH);
-    const firstItemAfterSorting = await productPage.getFirstProductsName();
+    const firstItemBeforeSorting = await products.getFirstProductsName();
+    await products.openSortModal();
+    await products.sortView.selectSortOption(SortOptions.PRICE_LOW_HIGH);
+    const firstItemAfterSorting = await products.getFirstProductsName();
     await expect(firstItemBeforeSorting).not.toEqual(firstItemAfterSorting);
   });
-  it(`add the product to the shopping cart. - add '${desiredProduct}'`, async () => {
-    await productPage.openSortModal();
-    await productPage.sortView.selectSortOption(SortOptions.NAME_AZ);
-    await productPage.swipeProductsList({
+  it(`add the product to the shopping cart. - add '${desiredProductName}'`, async () => {
+    await products.openSortModal();
+    await products.sortView.selectSortOption(SortOptions.NAME_AZ);
+    await products.swipeProductsList({
       duration: 300,
       direction: 'up',
       percent: 0.2,
     });
-    await productPage.addProductToCart(desiredProduct);
+    desiredProductPrice = await products.getProductPrice(desiredProductName);
+    await products.addProductToCart(desiredProductName);
     await expect(
-      productPage.getRemoveFromCartButtonForProduct(desiredProduct),
+      products.getRemoveFromCartButtonForProduct(desiredProductName),
     ).toBeDisplayed();
   });
   it('open shopping cart, remove the product and verify the update.', async () => {
     const extraProduct = 'Sauce Labs Bolt T-Shirt';
-    await productPage.addProductToCart(extraProduct);
-    await productPage.shoppingCartComponent.openShoppingCart();
+    await products.addProductToCart(extraProduct);
+    await products.shoppingCartComponent.openShoppingCart();
     const numberOfItemsInCart = await shoppingCartPage.getNumberOfItemsInCart();
     await shoppingCartPage.removeItemFromCart(extraProduct);
     const numberOfItemsAfterRemoval =
@@ -84,10 +90,16 @@ describe('Checkout process:: User should be able to', function () {
     await checkoutPage.submitCheckoutForm();
     const receivedErrorMessage = await checkoutPage.getErrorMessageText();
     expect(receivedErrorMessage).toEqual(expectedErrorMessage);
-  });
-  it('ensure the Checkout screen displays correct order details.', async () => {
     await checkoutPage.enterPostalCode('1234');
     await checkoutPage.submitCheckoutForm();
   });
-  it('place the order and complete the purchase .', async () => {});
+  it('ensure the Checkout screen displays correct order details.', async () => {
+    const receivedProductName =
+      await checkoutSummaryPage.getProductName(desiredProductName);
+    const receivedProductPrice =
+      await checkoutSummaryPage.getProductPrice(desiredProductName);
+    expect(receivedProductName).toEqual(desiredProductName);
+    expect(receivedProductPrice).toEqual(desiredProductPrice);
+  });
+  it('place the order and complete the purchase.', async () => {});
 });
