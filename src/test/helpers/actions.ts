@@ -1,3 +1,5 @@
+import { SwipeOptions } from 'webdriverio';
+
 export class Actions {
   async click(element: ChainablePromiseElement): Promise<void> {
     await element.click();
@@ -10,5 +12,14 @@ export class Actions {
     await element.click();
     await element.clearValue();
     await element.setValue(text);
+  }
+
+  async swipe(options: SwipeOptions): Promise<void> {
+    await driver.swipe(options);
+  }
+
+  async getElementText(element: ChainablePromiseElement): Promise<string> {
+    const elementText = await element.getText();
+    return elementText;
   }
 }
