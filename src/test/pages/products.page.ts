@@ -1,15 +1,25 @@
+import { SortView } from '../../views/sort.view';
 import { Actions } from '../helpers/actions';
 import { SwipeOptions } from 'webdriverio';
 
 export class ProductsPage {
   actions: Actions;
+  sortView: SortView;
 
   constructor() {
     this.actions = new Actions();
+    this.sortView = new SortView();
   }
 
   get productList(): ChainablePromiseElement {
     return $('~test-PRODUCTS');
+  }
+  get visibleProductsList(): ChainablePromiseArray {
+    return $$('//android.widget.TextView[@content-desc="test-Item title"]');
+  }
+
+  get sortModalButton(): ChainablePromiseElement {
+    return $('~test-Modal Selector Button');
   }
 
   getAddToCartButtonForProduct(productName: string): ChainablePromiseElement {
@@ -46,5 +56,13 @@ export class ProductsPage {
       percent,
       scrollableElement: this.productList,
     });
+  }
+  async openSortModal(): Promise<void> {
+    await this.actions.click(this.sortModalButton);
+  }
+
+  async getFirstProductsName(): Promise<string> {
+    const element: ChainablePromiseElement = this.visibleProductsList[0];
+    return this.actions.getElementText(element);
   }
 }
