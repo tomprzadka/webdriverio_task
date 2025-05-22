@@ -1,5 +1,4 @@
 import { testUser } from '../../test-data/user.data';
-import { SortOptions } from '../../views/sort.view';
 import { Actions } from '../helpers/actions';
 import { CheckoutPage } from '../pages/checkout.page';
 import { CheckoutCompletePage } from '../pages/checkoutComplete.page';
@@ -7,6 +6,7 @@ import { CheckoutSummaryPage } from '../pages/checkoutSummary.page';
 import { LoginPage } from '../pages/login.page';
 import { ProductsPage } from '../pages/products.page';
 import { ShoppingCartPage } from '../pages/shoppingCart.page';
+import { SortOptions } from '../views/sort.view';
 
 describe('Checkout process:: User should be able to', function () {
   let loginPage: LoginPage;

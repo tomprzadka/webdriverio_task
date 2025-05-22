@@ -1,4 +1,4 @@
-import { Actions } from '../test/helpers/actions';
+import { Actions } from '../../test/helpers/actions';
 
 export enum SortOptions {
   NAME_AZ = 'Name (A to Z)',

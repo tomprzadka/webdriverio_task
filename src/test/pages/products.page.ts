@@ -1,6 +1,6 @@
-import { SortView } from '../../views/sort.view';
 import { ShoppingCartComponent } from '../components/shoppingCart.component';
 import { Actions } from '../helpers/actions';
+import { SortView } from '../views/sort.view';
 import { SwipeOptions } from 'webdriverio';
 
 export class ProductsPage {
