@@ -22,4 +22,14 @@ export class Actions {
     const elementText = await element.getText();
     return elementText;
   }
+
+  async waitForElementToBeHidden(
+    element: ChainablePromiseElement,
+  ): Promise<void> {
+    await driver.waitUntil(async () => {
+      const isNotDisplayed = await element.isDisplayed({ inverse: true });
+      if (!isNotDisplayed) return true;
+      else return false;
+    });
+  }
 }

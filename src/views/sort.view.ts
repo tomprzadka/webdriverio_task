@@ -13,11 +13,19 @@ export class SortView {
   constructor() {
     this.actions = new Actions();
   }
+
+  get sortOptionsContainer(): ChainablePromiseElement {
+    return $('~Selector container');
+  }
+
   getFilterOptionByText(optionText: string): ChainablePromiseElement {
     return $(`//android.widget.TextView[@text="${optionText}"]`);
   }
 
   async selectSortOption(option: SortOptions): Promise<void> {
     await this.actions.click(this.getFilterOptionByText(option));
+    await this.actions.waitForElementToBeHidden(
+      this.getFilterOptionByText(option),
+    );
   }
 }
