@@ -1,0 +1,50 @@
+import { Actions } from '../helpers/actions';
+import { SwipeOptions } from 'webdriverio';
+
+export class ProductsPage {
+  actions: Actions;
+
+  constructor() {
+    this.actions = new Actions();
+  }
+
+  get productList(): ChainablePromiseElement {
+    return $('~test-PRODUCTS');
+  }
+
+  getAddToCartButtonForProduct(productName: string): ChainablePromiseElement {
+    return $(
+      `//android.widget.TextView[@content-desc="test-Item title" and @text="${productName}"]/following-sibling::android.view.ViewGroup[@content-desc='test-ADD TO CART']`,
+    );
+  }
+
+  findProductByText(productName: string): ChainablePromiseElement {
+    return $(`//android.widget.TextView[@text="${productName}"]`);
+  }
+
+  getRemoveFromCartButtonForProduct(
+    productName: string,
+  ): ChainablePromiseElement {
+    return $(
+      `//android.widget.TextView[@content-desc="test-Item title" and @text="${productName}"]//following-sibling::android.view.ViewGroup[@content-desc='test-REMOVE']`,
+    );
+  }
+
+  getItemByName(productName: string): ChainablePromiseElement {
+    return $(`//android.widget.TextView[@text="${productName}"]`);
+  }
+
+  async addProductToCart(productName: string): Promise<void> {
+    await this.actions.click(this.getAddToCartButtonForProduct(productName));
+  }
+
+  async swipeProductsList(options: SwipeOptions): Promise<void> {
+    const { direction, duration, percent } = options;
+    await this.actions.swipe({
+      direction,
+      duration,
+      percent,
+      scrollableElement: this.productList,
+    });
+  }
+}
