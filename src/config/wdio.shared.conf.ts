@@ -1,4 +1,10 @@
-import { saveRecording, saveScreenshot, saveToAppiumLog } from '../utils/utils';
+import {
+  disableAnimations,
+  restoreAnimations,
+  saveRecording,
+  saveScreenshot,
+  saveToAppiumLog,
+} from '../utils/utils';
 import { SCREENSHOTS_DIR, VIDEOS_DIR } from './paths';
 import { specs } from './wdio.specs';
 
@@ -21,16 +27,16 @@ export const config: WebdriverIO.Config = {
   beforeHook: async function () {
     await browser.startRecordingScreen();
   },
-
-  afterHook: async function (test, { error, passed, duration }) {
-    if (error || !passed) {
+  //@ts-expect-error context is necessary as afterHook exposes params in Test, context, TestResult order
+  afterHook: async function (test, context, result) {
+    if (!result.passed) {
       const testName = `${test.parent}-${test.title}`;
       const screenshotPath = `${SCREENSHOTS_DIR}${testName}`;
       const videoPath = `${VIDEOS_DIR}${testName}`;
       await saveScreenshot(screenshotPath);
       await saveRecording(videoPath);
 
-      const errorMessage = `HookError: ${testName} failed. Error: ${error?.message}. Duration: ${duration}ms`;
+      const errorMessage = `HookError: ${testName} failed. Error: ${result.error}.`;
       await saveToAppiumLog(errorMessage);
     }
   },
@@ -38,17 +44,25 @@ export const config: WebdriverIO.Config = {
   beforeTest: async function () {
     await browser.startRecordingScreen();
   },
-
-  afterTest: async function (test, { error, passed, duration }) {
-    if (error || !passed) {
+  //@ts-expect-error context is necessary as afterTest exposes params in Test, context, TestResult order
+  afterTest: async function (test, context, result) {
+    if (!result.passed) {
       const testName = `${test.parent}-${test.title}`;
       const screenshotPath = `${SCREENSHOTS_DIR}${testName}`;
       const videoPath = `${VIDEOS_DIR}${testName}`;
       await saveScreenshot(screenshotPath);
       await saveRecording(videoPath);
 
-      const errorMessage = `TestError: ${testName} failed. Error: ${error?.message}. Duration: ${duration}ms`;
+      const errorMessage = `TestError: ${testName} failed. Error: ${result.error}.`;
       await saveToAppiumLog(errorMessage);
     }
+  },
+
+  before: async function () {
+    await disableAnimations();
+  },
+
+  after: async function () {
+    await restoreAnimations();
   },
 };
