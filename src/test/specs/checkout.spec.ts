@@ -2,18 +2,20 @@ import { testUser } from '../../test-data/user.data';
 import { SortOptions } from '../../views/sort.view';
 import { LoginPage } from '../pages/login.page';
 import { ProductsPage } from '../pages/products.page';
+import { ShoppingCartPage } from '../pages/shoppingCart.page';
 
 describe('Checkout process:: User should be able to', function () {
   let loginPage: LoginPage;
   let productPage: ProductsPage;
+  let shoppingCartPage: ShoppingCartPage;
 
   before('setup', async () => {
     loginPage = new LoginPage();
     productPage = new ProductsPage();
+    shoppingCartPage = new ShoppingCartPage();
     await loginPage.login(testUser);
   });
 
-  const desiredProduct = 'Sauce Labs Fleece Jacket';
   it('should sort items by name from Z to A', async () => {
     const firstItemBeforeSorting = await productPage.getFirstProductsName();
     await productPage.openSortModal();
@@ -28,6 +30,7 @@ describe('Checkout process:: User should be able to', function () {
     const firstItemAfterSorting = await productPage.getFirstProductsName();
     await expect(firstItemBeforeSorting).not.toEqual(firstItemAfterSorting);
   });
+  const desiredProduct = 'Sauce Labs Fleece Jacket';
   it(`add the product to the shopping cart. - add '${desiredProduct}'`, async () => {
     await productPage.openSortModal();
     await productPage.sortView.selectSortOption(SortOptions.NAME_AZ);
@@ -41,7 +44,16 @@ describe('Checkout process:: User should be able to', function () {
       productPage.getRemoveFromCartButtonForProduct(desiredProduct),
     ).toBeDisplayed();
   });
-  it('open shopping cart, remove the product and verify the update.', async () => {});
+  it('open shopping cart, remove the product and verify the update.', async () => {
+    const extraProduct = 'Sauce Labs Bolt T-Shirt';
+    await productPage.addProductToCart(extraProduct);
+    await productPage.shoppingCartComponent.openShoppingCart();
+    const numberOfItemsInCart = await shoppingCartPage.getNumberOfItemsInCart();
+    await shoppingCartPage.removeItemFromCart(extraProduct);
+    const numberOfItemsAfterRemoval =
+      await shoppingCartPage.getNumberOfItemsInCart();
+    await expect(numberOfItemsInCart).not.toEqual(numberOfItemsAfterRemoval);
+  });
   it('navigate to the payment screen.', async () => {});
   it('see that first name is required on submitting empty checkout form', async () => {});
   it('see that last name is required on submitting empty checkout form', async () => {});

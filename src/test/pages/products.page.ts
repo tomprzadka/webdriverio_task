@@ -1,14 +1,17 @@
 import { SortView } from '../../views/sort.view';
+import { ShoppingCartComponent } from '../components/shoppingCart.component';
 import { Actions } from '../helpers/actions';
 import { SwipeOptions } from 'webdriverio';
 
 export class ProductsPage {
   actions: Actions;
   sortView: SortView;
+  shoppingCartComponent: ShoppingCartComponent;
 
   constructor() {
     this.actions = new Actions();
     this.sortView = new SortView();
+    this.shoppingCartComponent = new ShoppingCartComponent();
   }
 
   get productList(): ChainablePromiseElement {

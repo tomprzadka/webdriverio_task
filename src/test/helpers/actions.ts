@@ -32,4 +32,8 @@ export class Actions {
       else return false;
     });
   }
+
+  async getElementCount(elements: ChainablePromiseArray): Promise<number> {
+    return await elements.length;
+  }
 }
