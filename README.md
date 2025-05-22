@@ -28,12 +28,16 @@ the framework will throw an error.
 APPIUM_PORT=4723
 APPIUM_HOST=localhost
 PLATFORM_NAME=Android
-APP_PACKAGE="com.swaglabsmobileapp"
+APP_PACKAGE=com.swaglabsmobileapp
 AVD=
 PLATFORM_VERSION=
-APP_NAME="Android.SauceLabs.Mobile.Sample.app.2.7.1.apk"
-AUTOMATION_NAME="UIAutomator2"
-APP_WAIT_ACTIVITY=".MainActivity"
+APP_NAME=Android.SauceLabs.Mobile.Sample.app.2.7.1.apk
+AUTOMATION_NAME=UIAutomator2
+APP_ACTIVITY=.SplashActivity
+APP_WAIT_ACTIVITY=.MainActivity
+APPIUM_LOG_PATH=./logs/appium.log
+USERNAME=standard_user
+PASSWORD=secret_sauce
 ```
 
 Most of the keys are already filled in as this data is publicly available in this readme.
@@ -54,21 +58,34 @@ First, Appium server needs to be up and running. Start it with:
 npm run appium:start
 ```
 
+Then, in the second terminal window:
+
 ```bash
 npm run test:android
 ```
 
 Launches all tests provided in [specs](./src//config/wdio.specs.ts) file.
+Since all the tests cover order flow, these tests are included in a single spec file, hence no suites were created. All tests are required to run in provided sequence, as there is no data cleanup between tests.
 
 ## Project Structure
 
 ```
+error-artifacts/
+├── screenshots/    Screenshots taken on hook or test failure
+└── videos/         Videos taken on hook or test failure
+logs                Appium logs
 src/
-├── config/        Configuration logic and env handling
-├── helpers/       Custom helper functions
-├── apps/          APK files (not versioned)
-├── tests/         Test specs
-└── pages/         Page objects
+├── apps/           APK files (not versioned)
+├── config/         Configuration logic and env handling
+├── models/         Test data interfaces
+├── test/
+    ├── components/ Page Objects common between multiple screen
+    ├── helpers/    Actions class for interacting with selectors
+    ├── pages/      Page Objects for separate screens of the app
+    ├── specs/      Tests
+    ├── views/      Page Objects for Modals
+├── test-data/      Test data loaded from .env file
+└── utils/          Framework-related actions
 ```
 
 ## Notes
@@ -95,3 +112,7 @@ The project is designed to work reliably across development and CI environments.
 - Maintaining USB connections or device farms in CI, which adds complexity
 
 Focusing on Android emulators ensures stable, reproducible test runs without external dependencies.
+
+### Why Xpath over uiautomator selectors
+
+Just a matter of preference. Xpaths may not be fast and in this particular application may not be super 'smart' as there was a need to traverse the tree using `../` and `/parent` syntax, but given the application is no longer maintained these selectors will never break.
