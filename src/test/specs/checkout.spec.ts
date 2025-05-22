@@ -13,6 +13,8 @@ describe('Checkout process:: User should be able to', function () {
   let actions: Actions;
   let checkoutPage: CheckoutPage;
 
+  const desiredProduct = 'Sauce Labs Fleece Jacket';
+
   before('setup', async () => {
     loginPage = new LoginPage();
     productPage = new ProductsPage();
@@ -36,7 +38,6 @@ describe('Checkout process:: User should be able to', function () {
     const firstItemAfterSorting = await productPage.getFirstProductsName();
     await expect(firstItemBeforeSorting).not.toEqual(firstItemAfterSorting);
   });
-  const desiredProduct = 'Sauce Labs Fleece Jacket';
   it(`add the product to the shopping cart. - add '${desiredProduct}'`, async () => {
     await productPage.openSortModal();
     await productPage.sortView.selectSortOption(SortOptions.NAME_AZ);
@@ -64,9 +65,29 @@ describe('Checkout process:: User should be able to', function () {
     await shoppingCartPage.openCheckout();
     await expect(actions.waitForDisplayed(checkoutPage.checkoutForm));
   });
-  it('see that first name is required on submitting empty checkout form', async () => {});
-  it('see that last name is required on submitting empty checkout form', async () => {});
-  it('see that zip/postal code is required on submitting empty checkout form', async () => {});
-  it('ensure the Checkout screen displays correct order details.', async () => {});
+  it('see that first name is required on submitting empty checkout form', async () => {
+    const expectedErrorMessage = 'First Name is required';
+    await checkoutPage.submitCheckoutForm();
+    const receivedErrorMessage = await checkoutPage.getErrorMessageText();
+    expect(receivedErrorMessage).toEqual(expectedErrorMessage);
+  });
+  it('see that last name is required on submitting checkout form with only first name provided', async () => {
+    const expectedErrorMessage = 'Last Name is required';
+    await checkoutPage.enterFirstName('Test');
+    await checkoutPage.submitCheckoutForm();
+    const receivedErrorMessage = await checkoutPage.getErrorMessageText();
+    expect(receivedErrorMessage).toEqual(expectedErrorMessage);
+  });
+  it('see that zip/postal code is required on submitting checkout form with no postal code provided', async () => {
+    const expectedErrorMessage = 'Postal Code is required';
+    await checkoutPage.enterLastName('User');
+    await checkoutPage.submitCheckoutForm();
+    const receivedErrorMessage = await checkoutPage.getErrorMessageText();
+    expect(receivedErrorMessage).toEqual(expectedErrorMessage);
+  });
+  it('ensure the Checkout screen displays correct order details.', async () => {
+    await checkoutPage.enterPostalCode('1234');
+    await checkoutPage.submitCheckoutForm();
+  });
   it('place the order and complete the purchase .', async () => {});
 });
