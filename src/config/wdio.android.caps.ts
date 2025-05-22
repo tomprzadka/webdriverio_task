@@ -12,6 +12,7 @@ const {
   PLATFORM_VERSION,
   AUTOMATION_NAME,
   APP_WAIT_ACTIVITY,
+  APP_ACTIVITY,
 } = getEnv();
 
 export const config: WebdriverIO.Config = {
@@ -28,6 +29,7 @@ export const config: WebdriverIO.Config = {
         appPackage: APP_PACKAGE,
         app: getAppPath(APP_NAME),
         avd: AVD,
+        appActivity: `${APP_PACKAGE}.${APP_ACTIVITY}`,
         appWaitActivity: `${APP_PACKAGE}.${APP_WAIT_ACTIVITY}`,
       },
     },

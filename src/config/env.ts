@@ -8,6 +8,7 @@ interface EnvConfig {
   PLATFORM_VERSION: string;
   AUTOMATION_NAME: string;
   APP_WAIT_ACTIVITY: string;
+  APP_ACTIVITY: string;
 }
 
 export function getEnv(): EnvConfig {
@@ -21,6 +22,7 @@ export function getEnv(): EnvConfig {
     PLATFORM_VERSION,
     AUTOMATION_NAME,
     APP_WAIT_ACTIVITY,
+    APP_ACTIVITY,
   } = process.env;
 
   if (
@@ -32,7 +34,8 @@ export function getEnv(): EnvConfig {
     !APP_NAME ||
     !PLATFORM_VERSION ||
     !AUTOMATION_NAME ||
-    !APP_WAIT_ACTIVITY
+    !APP_WAIT_ACTIVITY ||
+    !APP_ACTIVITY
   )
     throw new Error('One of required variables is missing');
 
@@ -46,5 +49,6 @@ export function getEnv(): EnvConfig {
     PLATFORM_VERSION: PLATFORM_VERSION,
     AUTOMATION_NAME: AUTOMATION_NAME,
     APP_WAIT_ACTIVITY: APP_WAIT_ACTIVITY,
+    APP_ACTIVITY: APP_ACTIVITY,
   };
 }
