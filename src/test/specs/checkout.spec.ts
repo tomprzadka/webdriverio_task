@@ -48,5 +48,4 @@ describe('Checkout process:: User should be able to', function () {
   it('see that zip/postal code is required on submitting empty checkout form', async () => {});
   it('ensure the Checkout screen displays correct order details.', async () => {});
   it('place the order and complete the purchase .', async () => {});
-  it('Add the product to the shopping cart.', async () => {});
 });
