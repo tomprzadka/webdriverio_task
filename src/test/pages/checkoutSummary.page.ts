@@ -1,11 +1,7 @@
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 import { SwipeOptions } from 'webdriverio';
 
 export class CheckoutSummaryPage {
-  actions: Actions;
-  constructor() {
-    this.actions = new Actions();
-  }
   get checkoutSummaryProductsList(): ChainablePromiseElement {
     return $('~test-CHECKOUT: OVERVIEW');
   }
@@ -26,15 +22,15 @@ export class CheckoutSummaryPage {
   }
 
   async getProductName(productName: string): Promise<string> {
-    return this.actions.getElementText(this.getProductTitleName(productName));
+    return actions.getElementText(this.getProductTitleName(productName));
   }
 
   async getProductPrice(productName: string): Promise<string> {
-    return this.actions.getElementText(this.getProductPriceTag(productName));
+    return actions.getElementText(this.getProductPriceTag(productName));
   }
   async swipeCheckoutList(options: SwipeOptions): Promise<void> {
     const { direction, duration, percent } = options;
-    await this.actions.swipe({
+    await actions.swipe({
       direction,
       duration,
       percent,
@@ -43,6 +39,6 @@ export class CheckoutSummaryPage {
   }
 
   async completeCheckout(): Promise<void> {
-    await this.actions.click(this.finishCheckoutButton);
+    await actions.click(this.finishCheckoutButton);
   }
 }

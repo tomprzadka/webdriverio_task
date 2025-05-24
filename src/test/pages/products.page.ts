@@ -1,15 +1,13 @@
 import { ShoppingCartComponent } from '../components/shoppingCart.component';
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 import { SortView } from '../views/sort.view';
 import { SwipeOptions } from 'webdriverio';
 
 export class ProductsPage {
-  actions: Actions;
   sortView: SortView;
   shoppingCartComponent: ShoppingCartComponent;
 
   constructor() {
-    this.actions = new Actions();
     this.sortView = new SortView();
     this.shoppingCartComponent = new ShoppingCartComponent();
   }
@@ -53,16 +51,16 @@ export class ProductsPage {
   }
 
   async addProductToCart(productName: string): Promise<void> {
-    await this.actions.click(this.getAddToCartButtonForProduct(productName));
+    await actions.click(this.getAddToCartButtonForProduct(productName));
   }
 
   async getProductPrice(productName: string): Promise<string> {
-    return this.actions.getElementText(this.getPriceForProduct(productName));
+    return await actions.getElementText(this.getPriceForProduct(productName));
   }
 
   async swipeProductsList(options: SwipeOptions): Promise<void> {
     const { direction, duration, percent } = options;
-    await this.actions.swipe({
+    await actions.swipe({
       direction,
       duration,
       percent,
@@ -70,11 +68,11 @@ export class ProductsPage {
     });
   }
   async openSortModal(): Promise<void> {
-    await this.actions.click(this.sortModalButton);
+    await actions.click(this.sortModalButton);
   }
 
   async getFirstProductsName(): Promise<string> {
     const element: ChainablePromiseElement = this.visibleProductsList[0];
-    return this.actions.getElementText(element);
+    return actions.getElementText(element);
   }
 }

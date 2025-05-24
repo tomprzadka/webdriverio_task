@@ -1,11 +1,6 @@
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 
 export class CheckoutPage {
-  actions: Actions;
-  constructor() {
-    this.actions = new Actions();
-  }
-
   get checkoutForm(): ChainablePromiseElement {
     return $('~test-Checkout: Your Info');
   }
@@ -33,19 +28,19 @@ export class CheckoutPage {
   }
 
   async enterFirstName(firstName: string): Promise<void> {
-    await this.actions.enterText(this.checkoutFirstNameInput, firstName);
+    await actions.enterText(this.checkoutFirstNameInput, firstName);
   }
   async enterLastName(lastName: string): Promise<void> {
-    await this.actions.enterText(this.checkoutLastNameInput, lastName);
+    await actions.enterText(this.checkoutLastNameInput, lastName);
   }
   async enterPostalCode(postalCode: string): Promise<void> {
-    await this.actions.enterText(this.checkoutPostalCodeInput, postalCode);
+    await actions.enterText(this.checkoutPostalCodeInput, postalCode);
   }
   async submitCheckoutForm(): Promise<void> {
-    await this.actions.click(this.checkoutContinueButton);
+    await actions.click(this.checkoutContinueButton);
   }
 
   async getErrorMessageText(): Promise<string> {
-    return this.actions.getElementText(this.checkoutErrorMessage);
+    return await actions.getElementText(this.checkoutErrorMessage);
   }
 }

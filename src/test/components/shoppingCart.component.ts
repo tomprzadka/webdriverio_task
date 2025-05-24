@@ -1,11 +1,6 @@
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 
 export class ShoppingCartComponent {
-  actions: Actions;
-
-  constructor() {
-    this.actions = new Actions();
-  }
   get shoppingCartIcon(): ChainablePromiseElement {
     return $('~test-Cart');
   }
@@ -16,6 +11,6 @@ export class ShoppingCartComponent {
   }
 
   async openShoppingCart(): Promise<void> {
-    await this.actions.click(this.shoppingCartIcon);
+    await actions.click(this.shoppingCartIcon);
   }
 }

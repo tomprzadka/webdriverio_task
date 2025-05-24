@@ -1,4 +1,4 @@
-import { Actions } from '../../test/helpers/actions';
+import { actions } from '../helpers/actions';
 
 export enum SortOptions {
   NAME_AZ = 'Name (A to Z)',
@@ -8,12 +8,6 @@ export enum SortOptions {
 }
 
 export class SortView {
-  actions: Actions;
-
-  constructor() {
-    this.actions = new Actions();
-  }
-
   get sortOptionsContainer(): ChainablePromiseElement {
     return $('~Selector container');
   }
@@ -23,9 +17,7 @@ export class SortView {
   }
 
   async selectSortOption(option: SortOptions): Promise<void> {
-    await this.actions.click(this.getFilterOptionByText(option));
-    await this.actions.waitForElementToBeHidden(
-      this.getFilterOptionByText(option),
-    );
+    await actions.click(this.getFilterOptionByText(option));
+    await actions.waitUntilHidden(this.getFilterOptionByText(option));
   }
 }

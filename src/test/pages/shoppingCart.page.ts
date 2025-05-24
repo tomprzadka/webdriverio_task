@@ -1,11 +1,9 @@
 import { ShoppingCartComponent } from '../components/shoppingCart.component';
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 
 export class ShoppingCartPage {
-  actions: Actions;
   shoppingCartComponent: ShoppingCartComponent;
   constructor() {
-    this.actions = new Actions();
     this.shoppingCartComponent = new ShoppingCartComponent();
   }
   get itemsList(): ChainablePromiseElement {
@@ -26,14 +24,14 @@ export class ShoppingCartPage {
   }
 
   async getNumberOfItemsInCart(): Promise<number> {
-    return this.actions.getElementCount(this.itemsInCart);
+    return actions.getElementCount(this.itemsInCart);
   }
 
   async removeItemFromCart(productName: string): Promise<void> {
-    await this.actions.click(this.getRemoveButtonForItem(productName));
+    await actions.click(this.getRemoveButtonForItem(productName));
   }
 
   async openCheckout(): Promise<void> {
-    await this.actions.click(this.checkoutButton);
+    await actions.click(this.checkoutButton);
   }
 }

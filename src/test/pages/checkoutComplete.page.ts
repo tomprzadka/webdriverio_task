@@ -1,12 +1,6 @@
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 
 export class CheckoutCompletePage {
-  actions: Actions;
-
-  constructor() {
-    this.actions = new Actions();
-  }
-
   get checkoutCompletedScrollView(): ChainablePromiseElement {
     return $('~test-CHECKOUT: COMPLETE!');
   }
@@ -16,6 +10,6 @@ export class CheckoutCompletePage {
   }
 
   async goBackHome(): Promise<void> {
-    await this.actions.click(this.backHomeButton);
+    await actions.click(this.backHomeButton);
   }
 }

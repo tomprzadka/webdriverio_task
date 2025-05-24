@@ -1,5 +1,5 @@
 import { testUser } from '../../test-data/user.data';
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 import { CheckoutPage } from '../pages/checkout.page';
 import { CheckoutCompletePage } from '../pages/checkoutComplete.page';
 import { CheckoutSummaryPage } from '../pages/checkoutSummary.page';
@@ -12,7 +12,6 @@ describe('Checkout process:: User should be able to', function () {
   let loginPage: LoginPage;
   let productsPage: ProductsPage;
   let shoppingCartPage: ShoppingCartPage;
-  let actions: Actions;
   let checkoutPage: CheckoutPage;
   let checkoutSummaryPage: CheckoutSummaryPage;
   let checkoutCompletePage: CheckoutCompletePage;
@@ -24,7 +23,7 @@ describe('Checkout process:: User should be able to', function () {
     loginPage = new LoginPage();
     productsPage = new ProductsPage();
     shoppingCartPage = new ShoppingCartPage();
-    actions = new Actions();
+
     checkoutPage = new CheckoutPage();
     checkoutSummaryPage = new CheckoutSummaryPage();
     checkoutCompletePage = new CheckoutCompletePage();
@@ -73,7 +72,7 @@ describe('Checkout process:: User should be able to', function () {
   });
   it('navigate to the payment screen.', async () => {
     await shoppingCartPage.openCheckout();
-    await expect(actions.waitForDisplayed(checkoutPage.checkoutForm));
+    expect(await actions.waitUntilDisplayed(checkoutPage.checkoutForm));
   });
   it('see that first name is required on submitting empty checkout form', async () => {
     const expectedErrorMessage = 'First Name is required';
@@ -106,7 +105,7 @@ describe('Checkout process:: User should be able to', function () {
     expect(receivedProductPrice).toEqual(desiredProductPrice);
   });
   it('place the order and complete the purchase.', async () => {
-    await actions.waitForDisplayed(
+    await actions.waitUntilDisplayed(
       checkoutSummaryPage.checkoutSummaryProductsList,
     );
     await checkoutSummaryPage.swipeCheckoutList({
@@ -115,14 +114,14 @@ describe('Checkout process:: User should be able to', function () {
       percent: 0.4,
     });
     await checkoutSummaryPage.completeCheckout();
-    await actions.waitForDisplayed(
+    await actions.waitUntilDisplayed(
       checkoutCompletePage.checkoutCompletedScrollView,
     );
     await expect(
       checkoutCompletePage.checkoutCompletedScrollView,
     ).toBeDisplayed();
     await checkoutCompletePage.goBackHome();
-    await actions.waitForDisplayed(productsPage.productList);
+    await actions.waitUntilDisplayed(productsPage.productList);
     await expect(productsPage.productList).toBeDisplayed();
   });
 });

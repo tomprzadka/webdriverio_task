@@ -1,13 +1,7 @@
 import { LoginUser } from '../../models/user.model';
-import { Actions } from '../helpers/actions';
+import { actions } from '../helpers/actions';
 
 export class LoginPage {
-  actions: Actions;
-
-  constructor() {
-    this.actions = new Actions();
-  }
-
   get usernameInput(): ChainablePromiseElement {
     return $('~test-Username');
   }
@@ -21,8 +15,8 @@ export class LoginPage {
   }
 
   async login(user: LoginUser): Promise<void> {
-    await this.actions.enterText(this.usernameInput, user.username);
-    await this.actions.enterText(this.userPasswordInput, user.password);
-    await this.actions.click(this.loginButton);
+    await actions.enterText(this.usernameInput, user.username);
+    await actions.enterText(this.userPasswordInput, user.password);
+    await actions.click(this.loginButton);
   }
 }

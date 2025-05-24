@@ -80,7 +80,7 @@ src/
 ├── models/         Test data interfaces
 ├── test/
     ├── components/ Page Objects common between multiple screen
-    ├── helpers/    Actions class for interacting with selectors
+    ├── helpers/    actions object wrapper for interacting with selectors
     ├── pages/      Page Objects for separate screens of the app
     ├── specs/      Tests
     ├── views/      Page Objects for Modals
