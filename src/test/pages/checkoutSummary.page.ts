@@ -17,7 +17,8 @@ export class CheckoutSummaryPage {
   }
   getProductPriceTag(productName: string): ChainablePromiseElement {
     return $(
-      `//android.widget.TextView[@text="${productName}"]/../../..//*[@content-desc="test-Price"]/android.widget.TextView`,
+      // `//android.widget.TextView[@text="${productName}"]/../../..//*[@content-desc="test-Price"]/android.widget.TextView`,
+      `//android.widget.TextView[@text="${productName}"]/ancestor::*//*[@content-desc="test-Price"]/android.widget.TextView`,
     );
   }
 
